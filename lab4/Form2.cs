@@ -11,20 +11,12 @@ using System.Windows.Forms;
 namespace lab4
 {
     public partial class Form2 : Form
-    { 
-        public class Book
-        {
-            public string Authorl { get; set; }
-            public string Title1 { get; set; }
-            public string Genre1 { get; set; }
-            public string ISBN1 { get; set; }
-
-        }
-        public static Form2 instance2;
-        public Form2()
+    {
+        Form1 grid;
+        public Form2(Form1 g)
         {
             InitializeComponent();
-            instance2 = this;
+            this.grid = g;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -34,16 +26,21 @@ namespace lab4
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form1.instance1.Authorr = textBox1.Text;
-            Form1.instance1.Titlee = textBox2.Text;
-            Form1.instance1.Genree = textBox3.Text;
-            Form1.instance1.ISBNN = textBox4.Text;
-
-
+            grid.dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text);
             textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
             textBox4.Clear();
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
