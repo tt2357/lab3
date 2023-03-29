@@ -14,16 +14,23 @@ namespace lab4
 {
     public partial class Form1 : Form
     {
-
+        public BindingList<Parametry> ParametryList = new BindingList<Parametry>();
+        public Parametry parametry = new Parametry();
         public Form1()
         {
             InitializeComponent();
+            dataGridView1.DataSource = ParametryList;
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
         }
 
+        public void ADD(Parametry a1)
+
+        {
+            ParametryList.Add(a1);
+            dataGridView1.Update();
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             Form2 Form2 = new Form2(this);
@@ -69,7 +76,7 @@ namespace lab4
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            ParametryList.Clear();
             using (StreamReader reader = new StreamReader("File1.csv"))
             {
                 string line;
@@ -78,6 +85,36 @@ namespace lab4
                     string[] values = line.Split(',');
                     dataGridView1.Rows.Add(values);
                 }
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form3 Form3 = new Form3(ParametryList);
+            Form3.Show();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(BindingList<Parametry>));
+            using (var writer = new StreamWriter("eksport.xml"))
+            {
+                xmlSerializer.Serialize(writer, ParametryList);
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists("./eksport.xml"))
+            {
+                return;
+            }
+
+            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(BindingList<Parametry>));
+            using (var reader = new StreamReader("eksport.xml"))
+            {
+                ParametryList = (BindingList<Parametry>)xmlSerializer.Deserialize(reader);
+                dataGridView1.DataSource = ParametryList;
             }
         }
     }

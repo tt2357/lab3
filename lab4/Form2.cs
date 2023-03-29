@@ -12,13 +12,31 @@ namespace lab4
 {
     public partial class Form2 : Form
     {
-        Form1 grid;
+        public Form1 grid = null;
         public Form2(Form1 g)
         {
             InitializeComponent();
             this.grid = g;
         }
 
+        private void removePlaceholder(object sender, EventArgs e)
+        {
+            TextBox textbox = sender as TextBox;
+            string[] placeholders = { "Author", "Title", "Genre", "ISBN" };
+            if(placeholders.Contains(textbox.Text))
+            {
+                textbox.Text = "";
+                textbox.ForeColor = SystemColors.ControlText;
+            }
+        }
+        private void addPlaceholder(object sender, EventArgs e)
+        {
+            TextBox textbox = sender as TextBox;
+            if (textbox.Text == "")
+            {
+                textbox.Text = textbox.Tag as string;
+            }
+        }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -26,7 +44,16 @@ namespace lab4
 
         private void button1_Click(object sender, EventArgs e)
         {
-            grid.dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text);
+            Parametry tmp1 = new Parametry();
+            tmp1 = new Parametry(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text);
+            grid.ADD(tmp1);
+
+            textBox1.Text = textBox1.Tag as string;
+            textBox2.Text = textBox2.Tag as string;
+            textBox3.Text = textBox2.Tag as string;
+            textBox4.Text = textBox2.Tag as string;
+
+
             textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
